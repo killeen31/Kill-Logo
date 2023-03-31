@@ -1,0 +1,22 @@
+{
+  "name": "kill-logo",
+  "version": "1.0.0",
+  "description": "a command line application to generate personalised logos ",
+  "main": "index.js",
+  "directories": {
+    "example": "examples",
+    "lib": "lib"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "killeen31"
+  },
+  "keywords": [
+    "logo"
+  ],
+  "author": "killeen",
+  "license": "MIT"
+}
