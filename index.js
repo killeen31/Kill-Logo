@@ -8,18 +8,15 @@ class Svg {
         this.shapeElement = ''
     }
     render(){
-        return `<svg version=“1.1” xmlns=“http://www.w3.org/2000/svg” width=“300” height=“200">${this.shapeElement}${this.textElement}</svg>`
+        return `<svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="300" height="200">${this.shapeElement}${this.textElement}</svg>`
     }
     setTextElement(text,color){
-        this.textElement = `<text x=“150” y=“125" font-size=“60” text-anchor=“middle” fill=“${color}“>${text}</text>`
+        this.textElement = `<text x="150" y="125" font-size="60" text-anchor="middle" fill="${color}">${text}</text>`
     }
     setShapeElement(shape){
         this.shapeElement = shape.render()
     }
 }
-
-
-
 const questions = [
     {
         type: 'input',
@@ -43,24 +40,23 @@ const questions = [
         choices: ['Circle', 'Square', 'Triangle'],
     },
 ];
-
-
 async function init() {
     try {
         const answers = await inquirer.prompt(questions);
         console.log(answers)
-        const {text, color, shape} = answers;
+        const {text, shapeColor, shape} = answers;
         let shapeReal
         if (shape  === 'circle'){
             shapeReal = new Circle();
-             shapeReal.setColor(color);
+            //  shapeReal.setColor(shapeColor);
         } else if (shape === 'square'){
             shapeReal = new Square();
-            shapeReal.setColor(color);
+            // shapeReal.setColor(shapeColor);
         }else if (shape === 'triangle'){
             shapeReal = new Triangle();
-            shapeReal.setColor(color);
+            // shapeReal.setColor(shapeColor);
         }
+        shapeReal.setColor(shapeColor)
         console.log(shapeReal)
         let userText
         if (answers.text.length>0 && answers.text.length<4) {
@@ -70,20 +66,31 @@ async function init() {
             return 
         }
         let fontColor = answers.fontColor
-        let shapeColor = answerShape
+        // let shapeColor = answers.shapeColor
+
+        console.log(userText, fontColor)
 
         let svg = new Svg()
         svg.setTextElement(userText, fontColor)
         svg.setShapeElement(shapeReal)
         let svgRender = svg.render()
 
-        writeToFile('logo.svg', svgRender)
+        return writeToFile('logo.svg', svgRender)
 
 
         console.log('Successfully created logo.svg');
     } catch (err) {
         console.log(err); 
     }
+}
+function writeToFile(fileName, data) {
+    console.log("Writing [" + data + "] to file [" + fileName + "]")
+    filesystem.writeFile(fileName, data, function (err) {
+        if (err) {
+            return console.log(err);
+        }
+        console.log("Congratulations, you have Generated a logo.svg!");
+    });
 }
 
 init()
